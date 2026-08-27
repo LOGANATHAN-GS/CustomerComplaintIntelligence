@@ -2,3 +2,16 @@ target/
 *.class
 .vscode/
 .idea/
+
+# Large raw dataset
+data/complaints_raw.csv
+
+# Generated datasets
+data/train.csv
+data/test.csv
+data/preprocessed_complaints.csv
+data/cleaned_complaints.csv
+
+# Python cache
+__pycache__/
+*.pyc
