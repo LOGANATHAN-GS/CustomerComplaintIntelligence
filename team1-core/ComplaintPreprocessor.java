@@ -1,3 +1,5 @@
+package com.customercomplaint.core;
+
 public class ComplaintPreprocessor {
 
     public static String cleanText(String text) {

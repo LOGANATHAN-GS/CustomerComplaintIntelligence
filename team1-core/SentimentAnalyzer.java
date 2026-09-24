@@ -1,3 +1,5 @@
+package com.customercomplaint.core;
+
 public class SentimentAnalyzer {
 
     public static String analyze(String complaint) {

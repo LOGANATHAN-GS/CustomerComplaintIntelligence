@@ -1,3 +1,5 @@
+package com.customercomplaint.core;
+
 public class ComplaintClassifier {
 
     public static String classify(String complaint) {

@@ -1,3 +1,5 @@
+package com.customercomplaint.core;
+
 public class PriorityDetector {
 
     public static String detect(String complaint, String sentiment) {
