@@ -1,7 +1,4 @@
-package com.example.complaint.service;
-
-import com.example.complaint.model.Complaint;
-import com.example.complaint.repository.ComplaintRepository;
+package com.customercomplaint;
 
 import org.springframework.stereotype.Service;
 
@@ -9,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ComplaintDatabaseService {
+public class DatabaseService {
 
     private final ComplaintRepository complaintRepository;
 
-    public ComplaintDatabaseService(ComplaintRepository complaintRepository) {
+    public DatabaseService(ComplaintRepository complaintRepository) {
         this.complaintRepository = complaintRepository;
     }
 

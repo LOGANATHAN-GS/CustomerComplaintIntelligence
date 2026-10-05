@@ -27,43 +27,66 @@
 
     <dependencies>
 
-        <!-- Java Web Backend -->
+        <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- H2 Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
+
         <plugins>
+
+            <!-- Add Team 1 and Team 2 source folders -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.6.0</version>
+
                 <executions>
                     <execution>
                         <id>add-source</id>
                         <phase>generate-sources</phase>
+
                         <goals>
                             <goal>add-source</goal>
                         </goals>
+
                         <configuration>
                             <sources>
                                 <source>${project.basedir}/team1-core</source>
                                 <source>${project.basedir}/team2-backend</source>
                             </sources>
                         </configuration>
+
                     </execution>
                 </executions>
+
             </plugin>
 
+            <!-- Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
         </plugins>
+
     </build>
 
 </project>

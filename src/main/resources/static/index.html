@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComplaintAI - Modern Customer Intelligence Platform</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-300">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-card transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand Logo -->
+        <a href="index.html" class="flex items-center gap-3 cursor-pointer">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+            <i class="fa-solid fa-brain-circuit text-xl"></i>
+          </div>
+          <div>
+            <span class="font-extrabold text-xl tracking-tight gradient-text">ComplaintAI</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">Intelligence Platform</span>
+          </div>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-1">
+          <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md">
+            <i class="fa-solid fa-house text-xs"></i> Home
+          </a>
+          <a href="complaint.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Analyze Complaint
+          </a>
+          <a href="history.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+            <i class="fa-solid fa-clock-rotate-left text-xs"></i> History
+          </a>
+          <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+            <i class="fa-solid fa-chart-pie text-xs"></i> Analytics
+          </a>
+          <a href="#api" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-violet-600 dark:text-violet-400">
+            <i class="fa-solid fa-code text-xs"></i> Backend API Docs
+          </a>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Theme Toggle -->
+          <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
+          <!-- Quick Status Indicator -->
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            AI Engine Ready
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="md:hidden border-t border-slate-200 dark:border-slate-800 flex justify-around p-2 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
+      <a href="index.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="complaint.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze</a>
+      <a href="history.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+      <a href="dashboard.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-chart-pie"></i> Metrics</a>
+      <a href="#api" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-code"></i> API</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- HOME / LANDING -->
+    <section id="view-home" class="space-y-12">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 shadow-2xl border border-indigo-900/50">
+        <!-- Glow Orbs Background -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-semibold backdrop-blur-md">
+            <i class="fa-solid fa-sparkles text-amber-400"></i> Next-Gen Customer Support Intelligence
+          </div>
+          <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
+            Turn Customer Frustration into <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-violet-300 to-pink-400">Actionable Clarity</span>
+          </h1>
+          <p class="text-slate-300 text-lg leading-relaxed font-light">
+            Instantly categorize tickets, gauge emotion, assess business impact urgency, and generate smart automated response drafts using cutting-edge AI.
+          </p>
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="complaint.html" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white font-semibold shadow-lg shadow-blue-500/25 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+              <i class="fa-solid fa-bolt"></i> Start Real-Time Analysis
+            </a>
+            <a href="dashboard.html" class="px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 font-semibold transition backdrop-blur-md flex items-center gap-2">
+              <i class="fa-solid fa-chart-line"></i> View Analytics Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-6 rounded-2xl space-y-3 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <h3 class="font-bold text-lg">Smart Categorization</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+            Automatically routes complaints to Billing, Logistics, Product Quality, or Tech Support without manual intervention.
+          </p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-3 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+            <i class="fa-solid fa-face-frown text-xl"></i>
+          </div>
+          <h3 class="font-bold text-lg">Sentiment & Urgency</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+            Measures customer frustration levels and flags severe financial or reputational risks for high-priority escalation.
+          </p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl space-y-3 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
+            <i class="fa-solid fa-reply"></i>
+          </div>
+          <h3 class="font-bold text-lg">Automated Response Drafts</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+            Generates empathetic, context-aware email responses ready for customer service agent review in seconds.
+          </p>
+        </div>
+      </div>
+
+      <!-- Stats Quick Bar -->
+      <div class="glass-card p-8 rounded-2xl flex flex-wrap items-center justify-around gap-6 text-center">
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-blue-600 dark:text-blue-400" id="home-stat-total">0</div>
+          <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mt-1">Complaints Processed</div>
+        </div>
+        <div class="h-10 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-amber-500" id="home-stat-high">0</div>
+          <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mt-1">High Priority Escalations</div>
+        </div>
+        <div class="h-10 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-emerald-500">&lt; 1.2s</div>
+          <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mt-1">Avg Analysis Latency</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BACKEND API SPEC FOR TEAM 2 -->
+    <section id="api" class="space-y-6 max-w-4xl mx-auto pt-8">
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-widest text-violet-600 dark:text-violet-400">Developer Documentation</span>
+        <h2 class="text-3xl font-extrabold tracking-tight">Backend Integration Spec (Team 2)</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm">Contract specification between Team 3 (Frontend) and Team 2 (Spring Boot REST API).</p>
+      </div>
+
+      <div class="glass-card p-6 rounded-2xl space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 font-bold text-xs uppercase tracking-wider">POST /api/complaints/analyze</span>
+          <span class="text-xs text-slate-400">Content-Type: application/json</span>
+        </div>
+        <p class="text-xs text-slate-600 dark:text-slate-300">Submit a raw complaint string from the frontend to trigger Team 1's AI classification model and store the result in PostgreSQL/MySQL.</p>
+        
+        <div>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Expected Request Payload</span>
+          <pre class="p-4 rounded-xl bg-slate-900 text-blue-300 font-mono text-xs overflow-x-auto">{
+  "complaintText": "I was charged twice on my credit card for order #1042."
+}</pre>
+        </div>
+
+        <div>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Expected Response Structure</span>
+          <pre class="p-4 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs overflow-x-auto">{
+  "id": "C902",
+  "complaintText": "I was charged twice on my credit card for order #1042.",
+  "category": "Payment",
+  "sentiment": "Negative",
+  "priority": "High",
+  "confidenceScore": 0.96,
+  "actionRecommended": "Issue immediate billing credit or refund review.",
+  "draftReply": "Dear Customer, we apologize for the duplicate charge...",
+  "createdAt": "2026-09-24T18:30:00Z"
+}</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-800">
+      <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-msg">Action completed successfully!</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
