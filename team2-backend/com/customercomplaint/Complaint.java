@@ -20,6 +20,7 @@ public class Complaint {
     private double confidenceScore;
     private String actionRecommended;
     private String draftReply;
+    private String status = "RECEIVED";
     private Instant createdAt;
 
     public Complaint() {
@@ -31,6 +32,9 @@ public class Complaint {
         }
         if (createdAt == null) {
             createdAt = Instant.now();
+        }
+        if (status == null || status.isBlank()) {
+            status = "RECEIVED";
         }
     }
 
@@ -50,6 +54,8 @@ public class Complaint {
     public void setActionRecommended(String actionRecommended) { this.actionRecommended = actionRecommended; }
     public String getDraftReply() { return draftReply; }
     public void setDraftReply(String draftReply) { this.draftReply = draftReply; }
+    public String getStatus() { return status != null ? status : "RECEIVED"; }
+    public void setStatus(String status) { this.status = status; }
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }

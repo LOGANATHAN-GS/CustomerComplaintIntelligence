@@ -1,5 +1,6 @@
 package com.customercomplaint;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,13 @@ public class ComplaintController {
             @RequestBody(required = false) Complaint complaint) {
 
         return complaintService.processComplaint(complaint);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Complaint> getComplaintById(@PathVariable("id") String id) {
+        return complaintService.getComplaintById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping

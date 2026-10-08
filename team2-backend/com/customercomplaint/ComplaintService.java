@@ -41,6 +41,7 @@ public class ComplaintService {
         complaint.setDraftReply("Dear Customer, we are sorry to hear about your " +
                 category.toLowerCase() + " concern. Our team will review it and " +
                 "follow up with you as soon as possible.");
+        complaint.setStatus("RECEIVED");
         complaint.ensureIdAndTimestamp();
 
         return complaintRepository.save(complaint);
