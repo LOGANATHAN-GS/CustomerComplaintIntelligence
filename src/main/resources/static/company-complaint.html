@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Details - ComplaintAI</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* =========================================================
+           COMPANY COMPLAINT DETAIL PAGE
+           High contrast Light + Dark theme
+           ========================================================= */
+
+        :root {
+            --page-bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --card-secondary: #f8fafc;
+            --border: #dbe3ee;
+
+            --heading: #0f172a;
+            --body: #334155;
+            --muted: #64748b;
+            --label: #475569;
+
+            --blue: #2563eb;
+            --blue-soft: #eff6ff;
+
+            --purple: #7c3aed;
+            --purple-soft: #f5f3ff;
+
+            --green: #059669;
+            --green-soft: #ecfdf5;
+
+            --yellow: #d97706;
+            --yellow-soft: #fffbeb;
+
+            --red: #dc2626;
+
+            --nav-bg: #ffffff;
+        }
+
+
+        /* ---------- DARK THEME ---------- */
+
+        body.dark-theme {
+
+            --page-bg: #020617;
+            --card-bg: #0f172a;
+            --card-secondary: #111c31;
+            --border: #263449;
+
+            --heading: #f8fafc;
+            --body: #e2e8f0;
+            --muted: #a8b5c7;
+            --label: #cbd5e1;
+
+            --blue: #60a5fa;
+            --blue-soft: #172554;
+
+            --purple: #a78bfa;
+            --purple-soft: #2e1065;
+
+            --green: #34d399;
+            --green-soft: #052e24;
+
+            --yellow: #fbbf24;
+            --yellow-soft: #3b2a05;
+
+            --red: #f87171;
+
+            --nav-bg: #0b1220;
+        }
+
+
+        /* ---------- BASE ---------- */
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            min-height: 100%;
+
+            font-family:
+                "Plus Jakarta Sans",
+                Arial,
+                sans-serif;
+
+            background: var(--page-bg);
+
+            color: var(--body);
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease;
+        }
+
+
+        body {
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(37, 99, 235, 0.08),
+                    transparent 35%
+                ),
+                var(--page-bg);
+        }
+
+
+        /* ---------- NAVIGATION ---------- */
+
+        .company-nav {
+
+            background: var(--nav-bg);
+
+            border-bottom:
+                1px solid var(--border);
+
+            box-shadow:
+                0 2px 12px rgba(15, 23, 42, 0.06);
+
+            transition:
+                background-color 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+
+        .brand-title {
+
+            color: var(--heading);
+
+            font-weight: 800;
+        }
+
+
+        .brand-subtitle {
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav-link {
+
+            color: var(--body);
+
+            transition:
+                color 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+
+        .nav-link:hover {
+
+            color: var(--blue);
+
+            background: var(--blue-soft);
+        }
+
+
+        .nav-link.active {
+
+            color: var(--blue);
+
+            background: var(--blue-soft);
+
+            font-weight: 700;
+        }
+
+
+        .internal-badge {
+
+            color: var(--blue);
+
+            background: var(--blue-soft);
+
+            border:
+                1px solid rgba(37, 99, 235, 0.25);
+        }
+
+
+        /* ---------- THEME BUTTON ---------- */
+
+        .theme-button {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid var(--border);
+
+            background: var(--card-secondary);
+
+            color: var(--heading);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .theme-button:hover {
+
+            transform: translateY(-1px);
+
+            border-color: var(--blue);
+
+            color: var(--blue);
+        }
+
+
+        /* ---------- MAIN ---------- */
+
+        .page-title {
+
+            color: var(--heading);
+
+            font-weight: 800;
+        }
+
+
+        .page-description {
+
+            color: var(--muted);
+        }
+
+
+        .internal-label {
+
+            color: var(--blue);
+
+            background: var(--blue-soft);
+
+            border:
+                1px solid rgba(37, 99, 235, 0.25);
+        }
+
+
+        .back-link {
+
+            color: var(--blue);
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* ---------- CARDS ---------- */
+
+        .detail-card {
+
+            background: var(--card-bg);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.07);
+
+            transition:
+                background-color 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+
+        body.dark-theme .detail-card {
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+
+        .section-title {
+
+            color: var(--heading);
+
+            font-weight: 800;
+        }
+
+
+        .section-description {
+
+            color: var(--muted);
+        }
+
+
+        .field-label {
+
+            color: var(--label);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        .field-value {
+
+            color: var(--heading);
+
+            font-weight: 700;
+        }
+
+
+        /* ---------- STATUS ---------- */
+
+        .status-badge {
+
+            color: var(--green);
+
+            background: var(--green-soft);
+
+            border:
+                1px solid rgba(5, 150, 105, 0.25);
+
+            font-weight: 800;
+        }
+
+
+        /* ---------- COMPLAINT TEXT ---------- */
+
+        .complaint-box {
+
+            background: var(--card-secondary);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+        }
+
+
+        .complaint-text {
+
+            color: var(--body);
+
+            font-size: 15px;
+
+            line-height: 1.9;
+        }
+
+
+        /* ---------- AI CARDS ---------- */
+
+        .ai-box {
+
+            border-radius: 18px;
+
+            background: var(--card-secondary);
+
+            border:
+                1px solid var(--border);
+        }
+
+
+        .ai-category {
+
+            border-color: rgba(37, 99, 235, 0.25);
+
+            background: var(--blue-soft);
+        }
+
+
+        .ai-sentiment {
+
+            border-color: rgba(124, 58, 237, 0.25);
+
+            background: var(--purple-soft);
+        }
+
+
+        .ai-priority {
+
+            border-color: rgba(217, 119, 6, 0.25);
+
+            background: var(--yellow-soft);
+        }
+
+
+        .ai-confidence {
+
+            border-color: rgba(5, 150, 105, 0.25);
+
+            background: var(--green-soft);
+        }
+
+
+        .category-value {
+
+            color: var(--blue);
+
+            font-weight: 800;
+        }
+
+
+        .sentiment-value {
+
+            color: var(--purple);
+
+            font-weight: 800;
+        }
+
+
+        .priority-value {
+
+            color: var(--yellow);
+
+            font-weight: 800;
+        }
+
+
+        .confidence-value {
+
+            color: var(--green);
+
+            font-weight: 800;
+        }
+
+
+        /* ---------- ACTION ---------- */
+
+        .action-box {
+
+            background: var(--yellow-soft);
+
+            border:
+                1px solid rgba(217, 119, 6, 0.25);
+
+            border-radius: 18px;
+        }
+
+
+        .action-text {
+
+            color: var(--body);
+
+            font-weight: 600;
+
+            line-height: 1.8;
+        }
+
+
+        /* ---------- DRAFT REPLY ---------- */
+
+        .draft-box {
+
+            background: var(--card-secondary);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+        }
+
+
+        .draft-text {
+
+            color: var(--body);
+
+            line-height: 1.8;
+        }
+
+
+        .copy-button {
+
+            color: var(--blue);
+
+            background: var(--blue-soft);
+
+            border:
+                1px solid rgba(37, 99, 235, 0.2);
+
+            font-weight: 700;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .copy-button:hover {
+
+            border-color: var(--blue);
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ---------- LOADING ---------- */
+
+        .loading-card {
+
+            background: var(--card-bg);
+
+            border:
+                1px solid var(--border);
+
+            color: var(--body);
+        }
+
+
+        .loading-text {
+
+            color: var(--muted);
+        }
+
+
+        /* ---------- ERROR ---------- */
+
+        .error-card {
+
+            background: var(--card-bg);
+
+            border:
+                1px solid rgba(220, 38, 38, 0.3);
+        }
+
+
+        .error-title {
+
+            color: var(--heading);
+        }
+
+
+        .error-text {
+
+            color: var(--muted);
+        }
+
+
+        /* ---------- RESPONSIVE ---------- */
+
+        @media (max-width: 768px) {
+
+            .company-nav .desktop-nav {
+
+                display: none;
+            }
+
+            .detail-card {
+
+                border-radius: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body id="pageBody">
+
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+
+<header class="company-nav sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="flex items-center justify-between h-16">
+
+
+            <!-- BRAND -->
+
+            <a href="company.html"
+               class="flex items-center gap-3 no-underline">
+
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg">
+
+                    <i class="fa-solid fa-brain text-xl"></i>
+
+                </div>
+
+
+                <div>
+
+                    <div class="brand-title text-xl">
+
+                        ComplaintAI
+
+                    </div>
+
+
+                    <div class="brand-subtitle">
+
+                        Company Operations Portal
+
+                    </div>
+
+                </div>
+
+            </a>
+
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="desktop-nav hidden md:flex items-center gap-1">
+
+                <a href="company.html"
+                   class="nav-link px-4 py-2 rounded-lg text-sm">
+
+                    <i class="fa-solid fa-shield-halved text-xs mr-1"></i>
+
+                    Company Portal
+
+                </a>
+
+
+                <a href="history.html"
+                   class="nav-link active px-4 py-2 rounded-lg text-sm">
+
+                    <i class="fa-solid fa-clock-rotate-left text-xs mr-1"></i>
+
+                    Complaint History
+
+                </a>
+
+
+                <a href="dashboard.html"
+                   class="nav-link px-4 py-2 rounded-lg text-sm">
+
+                    <i class="fa-solid fa-chart-pie text-xs mr-1"></i>
+
+                    Analytics Dashboard
+
+                </a>
+
+            </nav>
+
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="flex items-center gap-3">
+
+
+                <!-- THEME -->
+
+                <button
+                    id="themeToggle"
+                    class="theme-button"
+                    type="button"
+                    aria-label="Toggle light and dark mode">
+
+                    <i id="themeIcon"
+                       class="fa-solid fa-moon"></i>
+
+                </button>
+
+
+                <!-- INTERNAL -->
+
+                <div class="internal-badge hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold">
+
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+
+                    Internal Console
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+
+    <!-- BACK -->
+
+    <a href="history.html"
+       class="back-link inline-flex items-center gap-2 text-sm mb-7">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back to Complaint History
+
+    </a>
+
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="mb-8">
+
+        <div class="internal-label inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-extrabold mb-4">
+
+            <i class="fa-solid fa-lock"></i>
+
+            COMPANY INTERNAL VIEW
+
+        </div>
+
+
+        <h1 class="page-title text-3xl md:text-4xl tracking-tight">
+
+            Complaint Details
+
+        </h1>
+
+
+        <p class="page-description text-sm mt-2">
+
+            Internal AI/NLP analysis and operational information.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         LOADING
+         ===================================================== -->
+
+    <div id="loadingState"
+         class="loading-card rounded-3xl p-12 text-center">
+
+        <i class="fa-solid fa-spinner fa-spin text-3xl text-blue-600 mb-4"></i>
+
+        <p class="loading-text text-sm">
+
+            Loading complaint details...
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ERROR
+         ===================================================== -->
+
+    <div id="errorState"
+         class="hidden error-card rounded-3xl p-10 text-center">
+
+        <i class="fa-solid fa-circle-exclamation text-4xl text-red-500 mb-5"></i>
+
+
+        <h2 class="error-title text-xl font-extrabold mb-2">
+
+            Unable to Load Complaint
+
+        </h2>
+
+
+        <p id="errorMessage"
+           class="error-text text-sm">
+
+            Complaint could not be found.
+
+        </p>
+
+
+        <a href="history.html"
+           class="inline-flex mt-6 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold">
+
+            <i class="fa-solid fa-arrow-left mr-2"></i>
+
+            Back to History
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         COMPLAINT DETAILS
+         ===================================================== -->
+
+    <div id="complaintDetails"
+         class="hidden space-y-6">
+
+
+        <!-- =================================================
+             REFERENCE / STATUS
+             ================================================= -->
+
+        <section class="detail-card p-6">
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+
+                <!-- ID -->
+
+                <div>
+
+                    <div class="field-label">
+
+                        Reference ID
+
+                    </div>
+
+
+                    <div id="complaintId"
+                         class="field-value font-mono text-2xl mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div>
+
+                    <div class="field-label">
+
+                        Status
+
+                    </div>
+
+
+                    <div class="mt-2">
+
+                        <span id="complaintStatus"
+                              class="status-badge inline-block px-3 py-1.5 rounded-full text-xs">
+
+                            RECEIVED
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CREATED -->
+
+                <div>
+
+                    <div class="field-label">
+
+                        Created At
+
+                    </div>
+
+
+                    <div id="createdAt"
+                         class="field-value text-sm mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CUSTOMER COMPLAINT
+             ================================================= -->
+
+        <section class="detail-card p-6">
+
+            <h2 class="section-title text-xl mb-2">
+
+                <i class="fa-solid fa-comment-dots text-blue-600 mr-2"></i>
+
+                Customer Complaint
+
+            </h2>
+
+
+            <p class="section-description text-sm mb-5">
+
+                Original complaint submitted by the customer.
+
+            </p>
+
+
+            <div class="complaint-box p-5">
+
+                <p id="complaintText"
+                   class="complaint-text whitespace-pre-wrap">
+
+                    -
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             AI / NLP
+             ================================================= -->
+
+        <section class="detail-card p-6">
+
+            <div class="mb-6">
+
+                <h2 class="section-title text-xl">
+
+                    <i class="fa-solid fa-brain text-violet-600 mr-2"></i>
+
+                    AI / NLP Analysis
+
+                </h2>
+
+
+                <p class="section-description text-sm mt-1">
+
+                    Internal automated complaint intelligence.
+
+                </p>
+
+            </div>
+
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+
+                <!-- CATEGORY -->
+
+                <div class="ai-box ai-category p-5">
+
+                    <div class="field-label">
+
+                        Category
+
+                    </div>
+
+
+                    <div id="category"
+                         class="category-value text-xl mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SENTIMENT -->
+
+                <div class="ai-box ai-sentiment p-5">
+
+                    <div class="field-label">
+
+                        Sentiment
+
+                    </div>
+
+
+                    <div id="sentiment"
+                         class="sentiment-value text-xl mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRIORITY -->
+
+                <div class="ai-box ai-priority p-5">
+
+                    <div class="field-label">
+
+                        Priority
+
+                    </div>
+
+
+                    <div id="priority"
+                         class="priority-value text-xl mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="ai-box ai-confidence p-5">
+
+                    <div class="field-label">
+
+                        Confidence
+
+                    </div>
+
+
+                    <div id="confidence"
+                         class="confidence-value text-xl mt-2">
+
+                        -
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RECOMMENDED ACTION
+             ================================================= -->
+
+        <section class="detail-card p-6">
+
+            <h2 class="section-title text-xl mb-5">
+
+                <i class="fa-solid fa-bolt text-amber-500 mr-2"></i>
+
+                Recommended Action
+
+            </h2>
+
+
+            <div class="action-box p-5">
+
+                <p id="actionRecommended"
+                   class="action-text text-sm">
+
+                    -
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DRAFT REPLY
+             ================================================= -->
+
+        <section class="detail-card p-6">
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+
+                <h2 class="section-title text-xl">
+
+                    <i class="fa-solid fa-reply text-blue-600 mr-2"></i>
+
+                    AI Generated Draft Reply
+
+                </h2>
+
+
+                <button
+                    id="copyDraftButton"
+                    onclick="copyDraftReply()"
+                    class="copy-button px-4 py-2 rounded-lg text-sm">
+
+                    <i class="fa-regular fa-copy mr-1"></i>
+
+                    Copy Draft
+
+                </button>
+
+            </div>
+
+
+            <div class="draft-box p-5">
+
+                <p id="draftReply"
+                   class="draft-text text-sm whitespace-pre-wrap">
+
+                    -
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+
+    /* =========================================================
+       THEME
+       ========================================================= */
+
+    const body = document.getElementById("pageBody");
+
+    const themeToggle =
+        document.getElementById("themeToggle");
+
+    const themeIcon =
+        document.getElementById("themeIcon");
+
+
+    function applyTheme(theme) {
+
+        if (theme === "dark") {
+
+            body.classList.add("dark-theme");
+
+            themeIcon.className =
+                "fa-solid fa-sun";
+
+        } else {
+
+            body.classList.remove("dark-theme");
+
+            themeIcon.className =
+                "fa-solid fa-moon";
+
+        }
+
+    }
+
+
+    const savedTheme =
+        localStorage.getItem("complaintAITheme");
+
+
+    if (savedTheme) {
+
+        applyTheme(savedTheme);
+
+    } else {
+
+        applyTheme("light");
+
+    }
+
+
+    themeToggle.addEventListener("click", function () {
+
+        const isDark =
+            body.classList.contains("dark-theme");
+
+
+        const newTheme =
+            isDark ? "light" : "dark";
+
+
+        localStorage.setItem(
+            "complaintAITheme",
+            newTheme
+        );
+
+
+        applyTheme(newTheme);
+
+    });
+
+
+
+    /* =========================================================
+       COMPLAINT DATA
+       ========================================================= */
+
+    let currentComplaint = null;
+
+
+
+    function getComplaintId() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        return params.get("id");
+
+    }
+
+
+
+    function formatDate(value) {
+
+        if (!value) {
+
+            return "-";
+
+        }
+
+
+        try {
+
+            return new Date(value)
+                .toLocaleString();
+
+        } catch (error) {
+
+            return value;
+
+        }
+
+    }
+
+
+
+    function showError(message) {
+
+        document
+            .getElementById("loadingState")
+            .classList.add("hidden");
+
+
+        document
+            .getElementById("complaintDetails")
+            .classList.add("hidden");
+
+
+        document
+            .getElementById("errorState")
+            .classList.remove("hidden");
+
+
+        document
+            .getElementById("errorMessage")
+            .textContent = message;
+
+    }
+
+
+
+    /* =========================================================
+       LOAD COMPLAINT
+       ========================================================= */
+
+    async function loadComplaint() {
+
+        const id =
+            getComplaintId();
+
+
+        if (!id) {
+
+            showError(
+                "No complaint reference ID was provided."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/complaints/" +
+                    encodeURIComponent(id),
+                    {
+                        method: "GET",
+                        credentials: "same-origin"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+
+                if (response.status === 401) {
+
+                    showError(
+                        "Your company session has expired. Please log in again."
+                    );
+
+                    return;
+
+                }
+
+
+                if (response.status === 403) {
+
+                    showError(
+                        "Access denied. Company authorization is required."
+                    );
+
+                    return;
+
+                }
+
+
+                if (response.status === 404) {
+
+                    showError(
+                        "Complaint " +
+                        id +
+                        " was not found."
+                    );
+
+                    return;
+
+                }
+
+
+                throw new Error(
+                    "Server returned HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            const complaint =
+                await response.json();
+
+
+            currentComplaint =
+                complaint;
+
+
+
+            /* -------------------------
+               BASIC DETAILS
+               ------------------------- */
+
+            document
+                .getElementById("complaintId")
+                .textContent =
+                complaint.id || id;
+
+
+            document
+                .getElementById("complaintStatus")
+                .textContent =
+                complaint.status || "RECEIVED";
+
+
+            document
+                .getElementById("createdAt")
+                .textContent =
+                formatDate(
+                    complaint.createdAt
+                );
+
+
+
+            /* -------------------------
+               COMPLAINT
+               ------------------------- */
+
+            document
+                .getElementById("complaintText")
+                .textContent =
+                complaint.complaintText || "-";
+
+
+
+            /* -------------------------
+               AI / NLP
+               ------------------------- */
+
+            document
+                .getElementById("category")
+                .textContent =
+                complaint.category || "-";
+
+
+            document
+                .getElementById("sentiment")
+                .textContent =
+                complaint.sentiment || "-";
+
+
+            document
+                .getElementById("priority")
+                .textContent =
+                complaint.priority || "-";
+
+
+            document
+                .getElementById("confidence")
+                .textContent =
+                complaint.confidenceScore != null
+                    ? Math.round(
+                        complaint.confidenceScore * 100
+                    ) + "%"
+                    : "-";
+
+
+
+            /* -------------------------
+               ACTION
+               ------------------------- */
+
+            document
+                .getElementById("actionRecommended")
+                .textContent =
+                complaint.actionRecommended || "-";
+
+
+
+            /* -------------------------
+               DRAFT
+               ------------------------- */
+
+            document
+                .getElementById("draftReply")
+                .textContent =
+                complaint.draftReply || "-";
+
+
+
+            /* -------------------------
+               SHOW PAGE
+               ------------------------- */
+
+            document
+                .getElementById("loadingState")
+                .classList.add("hidden");
+
+
+            document
+                .getElementById("complaintDetails")
+                .classList.remove("hidden");
+
+
+        } catch (error) {
+
+            console.error(
+                "Complaint detail error:",
+                error
+            );
+
+
+            showError(
+                "Unable to load complaint details. Please try again."
+            );
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       COPY DRAFT
+       ========================================================= */
+
+    async function copyDraftReply() {
+
+        if (
+            !currentComplaint ||
+            !currentComplaint.draftReply
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await navigator.clipboard.writeText(
+                currentComplaint.draftReply
+            );
+
+
+            const button =
+                document.getElementById(
+                    "copyDraftButton"
+                );
+
+
+            const original =
+                button.innerHTML;
+
+
+            button.innerHTML =
+                '<i class="fa-solid fa-check mr-1"></i> Copied';
+
+
+            setTimeout(function () {
+
+                button.innerHTML =
+                    original;
+
+            }, 1500);
+
+
+        } catch (error) {
+
+            alert(
+                "Unable to copy draft reply."
+            );
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       START
+       ========================================================= */
+
+    loadComplaint();
+
+
+</script>
+
+
+</body>
+
+</html>

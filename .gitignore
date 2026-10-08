@@ -14,4 +14,8 @@ data/cleaned_complaints.csv
 
 # Python cache
 __pycache__/
-*.pyc
+*.pyccompany-cookies.txt
+data/*.mv.db
+data/*.trace.db
+data/*.lock.db
+company-cookies.txt

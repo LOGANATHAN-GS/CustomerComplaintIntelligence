@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Operations Portal - ComplaintAI</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-300">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 glass-card transition-colors duration-300">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Brand Logo -->
+                <a href="company.html" class="flex items-center gap-3 cursor-pointer">
+
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                        <i class="fa-solid fa-brain-circuit text-xl"></i>
+                    </div>
+
+                    <div>
+                        <span class="font-extrabold text-xl tracking-tight gradient-text">
+                            ComplaintAI
+                        </span>
+
+                        <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">
+                            Company Operations Portal
+                        </span>
+                    </div>
+
+                </a>
+
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1">
+
+                    <a href="company.html"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md">
+
+                        <i class="fa-solid fa-shield-halved text-xs"></i>
+                        Company Portal
+
+                    </a>
+
+                    <a href="history.html"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+
+                        <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+                        Complaint History
+
+                    </a>
+
+                    <a href="dashboard.html"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+
+                        <i class="fa-solid fa-chart-pie text-xs"></i>
+                        Analytics Dashboard
+
+                    </a>
+
+                </nav>
+
+
+                <!-- Header Actions -->
+                <div class="flex items-center gap-3">
+
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()"
+                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+
+                    </button>
+
+
+                    <!-- Logout Button -->
+                    <button onclick="logoutCompany()"
+                            class="px-3 py-2.5 rounded-xl bg-red-500/10 text-red-500 dark:text-red-400 border border-red-500/20 hover:bg-red-500/20 transition flex items-center gap-2 text-sm font-semibold"
+                            title="Logout">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span class="hidden sm:inline">
+                            Logout
+                        </span>
+
+                    </button>
+
+
+                    <!-- Operations Status Indicator -->
+                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs font-semibold">
+
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+
+                        Internal Console
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Navigation Menu -->
+        <div class="md:hidden border-t border-slate-200 dark:border-slate-800 flex justify-around p-2 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
+
+            <a href="company.html"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium text-blue-600">
+
+                <i class="fa-solid fa-shield-halved"></i>
+                Portal
+
+            </a>
+
+            <a href="history.html"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+
+            </a>
+
+            <a href="dashboard.html"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium">
+
+                <i class="fa-solid fa-chart-pie"></i>
+                Metrics
+
+            </a>
+
+            <button onclick="logoutCompany()"
+                    class="p-2 text-xs flex flex-col items-center gap-1 font-medium text-red-500">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+
+        <!-- Hero / Welcome Header -->
+        <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 shadow-2xl border border-indigo-900/50">
+
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+
+            <div class="relative z-10 max-w-3xl space-y-5">
+
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-semibold backdrop-blur-md">
+
+                    <i class="fa-solid fa-lock text-amber-400"></i>
+
+                    Internal Operations
+
+                </div>
+
+
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+
+                    ComplaintAI
+
+                    <span class="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-violet-300 to-pink-400 text-2xl sm:text-4xl mt-1">
+
+                        Company Operations Portal
+
+                    </span>
+
+                </h1>
+
+
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+
+                    Use this portal to review and analyze customer complaints,
+                    inspect AI categorization and sentiment triage,
+                    and track aggregate operational health.
+
+                </p>
+
+
+                <div class="pt-2 flex items-center gap-2 text-xs text-slate-400">
+
+                    <i class="fa-solid fa-circle-info text-blue-400"></i>
+
+                    <span>
+                        Authorized staff view for reviewing customer complaints and intelligence analytics.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Operational Portal Action Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+
+            <!-- Card 1: Complaint History -->
+            <div class="glass-card p-8 rounded-3xl shadow-xl flex flex-col justify-between hover:shadow-2xl transition group border border-slate-200/80 dark:border-slate-800">
+
+                <div class="space-y-4">
+
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">
+
+                            Complaint History
+
+                        </h2>
+
+
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2 leading-relaxed">
+
+                            View submitted complaints, classifications,
+                            sentiment, priority and AI analysis.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="space-y-2 pt-2 text-xs text-slate-600 dark:text-slate-400">
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-blue-500"></i>
+
+                            <span>
+                                Inspect all processed customer tickets
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-blue-500"></i>
+
+                            <span>
+                                Filter by Category and Urgency Priority
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-blue-500"></i>
+
+                            <span>
+                                View operational action recommendations and draft replies
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pt-8">
+
+                    <a href="history.html"
+                       class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-500/25 transition flex items-center justify-center gap-2">
+
+                        <i class="fa-solid fa-table-list"></i>
+
+                        Open Complaint History
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Card 2: Analytics Dashboard -->
+            <div class="glass-card p-8 rounded-3xl shadow-xl flex flex-col justify-between hover:shadow-2xl transition group border border-slate-200/80 dark:border-slate-800">
+
+                <div class="space-y-4">
+
+                    <div class="w-14 h-14 rounded-2xl bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">
+
+                            Analytics Dashboard
+
+                        </h2>
+
+
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-2 leading-relaxed">
+
+                            Monitor complaint volume, priority distribution,
+                            sentiment and category trends.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="space-y-2 pt-2 text-xs text-slate-600 dark:text-slate-400">
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-violet-500"></i>
+
+                            <span>
+                                Real-time ticket volume and risk escalation metrics
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-violet-500"></i>
+
+                            <span>
+                                Visual breakdown of complaint categories
+                            </span>
+
+                        </div>
+
+
+                        <div class="flex items-center gap-2">
+
+                            <i class="fa-solid fa-check text-violet-500"></i>
+
+                            <span>
+                                Customer friction rate and sentiment distribution
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pt-8">
+
+                    <a href="dashboard.html"
+                       class="w-full py-3.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-violet-500/25 transition flex items-center justify-center gap-2">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                        Open Analytics Dashboard
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- Notification Toast Container -->
+    <div id="toast"
+         class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+
+        <div class="px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-800">
+
+            <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+
+            <span id="toast-msg">
+                Action completed successfully!
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Existing Project JavaScript -->
+    <script src="script.js"></script>
+
+
+    <!-- Company Logout -->
+    <script>
+
+        async function logoutCompany() {
+
+            try {
+
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+
+                if (response.ok) {
+
+                    window.location.href = "/login.html";
+
+                } else {
+
+                    alert("Unable to logout. Please try again.");
+
+                }
+
+            } catch (error) {
+
+                console.error("Logout error:", error);
+
+                alert("Unable to connect to the server.");
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

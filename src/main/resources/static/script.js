@@ -708,21 +708,17 @@ async function handleComplaintSubmit(e) {
 
     const payload = await analyzeComplaintWithBackend(text);
 
-    const result = {
-      id: payload.id,
-      text: payload.complaintText,
-      category: payload.category,
-      sentiment: payload.sentiment,
-      priority: payload.priority,
-      confidence: Math.round((payload.confidenceScore || 0) * 100),
-      action: payload.actionRecommended,
-      draftReply: payload.draftReply,
-      createdAt: payload.createdAt
-    };
+    // Extract only the complaint reference ID for the customer-safe result flow
+    const complaintId = payload && payload.id ? payload.id : "";
 
-    localStorage.setItem('latest_result', JSON.stringify(result));
-
-    window.location.href = 'result.html';
+    if (complaintId) {
+      sessionStorage.setItem("customer_tracking_id", complaintId);
+      localStorage.setItem("customer_tracking_id", complaintId);
+      localStorage.removeItem("latest_result");
+      window.location.href = `result.html?id=${encodeURIComponent(complaintId)}`;
+    } else {
+      window.location.href = "result.html";
+    }
 
   } catch (err) {
 
@@ -746,173 +742,152 @@ async function handleComplaintSubmit(e) {
 
 
 /* =========================================================
-   RESULT PAGE
+   CUSTOMER-SAFE CONFIRMATION & TRACKING
    ========================================================= */
 
-function displayAnalysisResult(res) {
+async function fetchCustomerComplaint(id) {
+  const response = await fetch(
+    `/api/customer/complaints/${encodeURIComponent(id)}`
+  );
 
-  if (!res) {
-    return;
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(`Reference ID "${id}" was not found.`);
+    }
+    throw new Error(`Unable to fetch complaint details (HTTP ${response.status}).`);
   }
 
+  return await response.json();
+}
 
-  const originalTextEl =
-    document.getElementById(
-      "res-original-text"
-    );
+function renderCustomerConfirmation(data) {
+  if (!data) return;
 
-
-  if (!originalTextEl) {
-    return;
+  const refIdEl = document.getElementById("res-ref-id");
+  if (refIdEl) {
+    refIdEl.innerText = data.id || "-";
   }
 
-
-  originalTextEl.innerText =
-    `"${res.text || ""}"`;
-
-
-  const category =
-    document.getElementById(
-      "res-category"
-    );
-
-
-  if (category) {
-
-    category.innerText =
-      res.category ||
-      "General";
+  const statusEl = document.getElementById("res-status");
+  if (statusEl) {
+    statusEl.innerText = data.status || "RECEIVED";
   }
 
-
-  const confidence =
-    document.getElementById(
-      "res-confidence"
-    );
-
-
-  if (confidence) {
-
-    confidence.innerText =
-      `Conf: ${res.confidence || 0}%`;
-  }
-
-
-  const sentiment =
-    document.getElementById(
-      "res-sentiment"
-    );
-
-
-  if (sentiment) {
-
-    sentiment.innerText =
-      res.sentiment ||
-      "Neutral";
-  }
-
-
-  const action =
-    document.getElementById(
-      "res-action"
-    );
-
-
-  if (action) {
-
-    action.innerText =
-      res.action ||
-      "No action available.";
-  }
-
-
-  const draft =
-    document.getElementById(
-      "res-draft-reply"
-    );
-
-
-  if (draft) {
-
-    draft.innerText =
-      res.draftReply ||
-      "";
-  }
-
-
-  const prioEl =
-    document.getElementById(
-      "res-priority"
-    );
-
-
-  if (prioEl) {
-
-    prioEl.innerText =
-      res.priority ||
-      "Medium";
-
-
-    if (
-      res.priority ===
-      "High"
-    ) {
-
-      prioEl.className =
-        "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
-
-    } else if (
-      res.priority ===
-      "Medium"
-    ) {
-
-      prioEl.className =
-        "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20";
-
+  const dateEl = document.getElementById("res-created-at");
+  if (dateEl) {
+    if (data.createdAt) {
+      try {
+        const d = new Date(data.createdAt);
+        dateEl.innerText = isNaN(d.getTime()) ? data.createdAt : d.toLocaleString();
+      } catch (e) {
+        dateEl.innerText = data.createdAt;
+      }
     } else {
+      dateEl.innerText = "Just now";
+    }
+  }
 
-      prioEl.className =
-        "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20";
+  const msgEl = document.getElementById("res-message");
+  if (msgEl) {
+    msgEl.innerText =
+      data.message ||
+      "Your complaint has been received and is currently under review.";
+  }
+
+  const textEl = document.getElementById("res-complaint-text");
+  if (textEl) {
+    textEl.innerText = data.complaintText || "";
+  }
+
+  const resultCard = document.getElementById("customer-result-card");
+  if (resultCard) {
+    resultCard.classList.remove("hidden");
+  }
+
+  const emptyNotice = document.getElementById("res-empty-notice");
+  if (emptyNotice) {
+    emptyNotice.classList.add("hidden");
+  }
+}
+
+async function initResultPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const idFromUrl = urlParams.get("id");
+  const idFromStorage =
+    sessionStorage.getItem("customer_tracking_id") ||
+    localStorage.getItem("customer_tracking_id");
+  const complaintId = (idFromUrl || idFromStorage || "").trim();
+
+  const trackInput = document.getElementById("trackInput");
+  if (trackInput && complaintId) {
+    trackInput.value = complaintId;
+  }
+
+  if (!complaintId) {
+    const emptyNotice = document.getElementById("res-empty-notice");
+    if (emptyNotice) {
+      emptyNotice.classList.remove("hidden");
+    }
+    const resultCard = document.getElementById("customer-result-card");
+    if (resultCard) {
+      resultCard.classList.add("hidden");
+    }
+    return;
+  }
+
+  try {
+    const data = await fetchCustomerComplaint(complaintId);
+    renderCustomerConfirmation(data);
+  } catch (error) {
+    console.error("Failed to load customer complaint:", error);
+    showToast(error.message);
+    const emptyNotice = document.getElementById("res-empty-notice");
+    if (emptyNotice) {
+      emptyNotice.innerText = error.message;
+      emptyNotice.classList.remove("hidden");
     }
   }
 }
 
+async function trackComplaintById() {
+  const trackInput = document.getElementById("trackInput");
+  if (!trackInput) return;
 
-/* =========================================================
-   COPY DRAFT
-   ========================================================= */
-
-function copyDraftReply() {
-
-  const draft =
-    document.getElementById(
-      "res-draft-reply"
-    );
-
-
-  if (!draft) {
+  const id = trackInput.value.trim();
+  if (!id) {
+    showToast("Please enter a Reference ID to track.");
     return;
   }
 
+  try {
+    const data = await fetchCustomerComplaint(id);
+    renderCustomerConfirmation(data);
+    sessionStorage.setItem("customer_tracking_id", id);
+    localStorage.setItem("customer_tracking_id", id);
 
-  const text =
-    draft.innerText;
+    const newUrl =
+      window.location.pathname + "?id=" + encodeURIComponent(id);
+    window.history.replaceState({ path: newUrl }, "", newUrl);
 
+    showToast("Complaint status loaded.");
+  } catch (error) {
+    showToast(error.message);
+  }
+}
+
+function copyReferenceId() {
+  const refIdEl = document.getElementById("res-ref-id");
+  if (!refIdEl) return;
+  const id = refIdEl.innerText.trim();
+  if (!id || id === "-") return;
 
   navigator.clipboard
-    .writeText(text)
+    .writeText(id)
     .then(() => {
-
-      showToast(
-        "Draft reply copied to clipboard!"
-      );
-
+      showToast("Reference ID copied to clipboard!");
     })
     .catch(() => {
-
-      showToast(
-        "Unable to copy draft reply."
-      );
+      showToast("Unable to copy Reference ID.");
     });
 }
 
@@ -1320,55 +1295,12 @@ function viewHistoryDetail(id) {
     return;
   }
 
-
-  const result = {
-
-    id:
-      item.id,
-
-    text:
-      item.text,
-
-    complaintText:
-      item.text,
-
-    category:
-      item.category,
-
-    sentiment:
-      item.sentiment,
-
-    priority:
-      item.priority,
-
-    confidence:
-      item.confidence,
-
-    confidenceScore:
-      item.confidence / 100,
-
-    action:
-      item.action,
-
-    actionRecommended:
-      item.action,
-
-    draftReply:
-      item.draftReply,
-
-    createdAt:
-      item.createdAt
-  };
-
-
-  localStorage.setItem(
-    "latest_result",
-    JSON.stringify(result)
-  );
-
+  sessionStorage.setItem("customer_tracking_id", item.id);
+  localStorage.setItem("customer_tracking_id", item.id);
+  localStorage.removeItem("latest_result");
 
   window.location.href =
-    "result.html";
+    `result.html?id=${encodeURIComponent(item.id)}`;
 }
 
 
@@ -2175,56 +2107,15 @@ window.addEventListener(
 
 
     /*
-       Result page
+       Customer Result / Confirmation page
     */
 
     if (
       document.getElementById(
-        "res-original-text"
+        "view-customer-result"
       )
     ) {
-
-      const rawResult =
-        localStorage.getItem(
-          "latest_result"
-        );
-
-
-      if (rawResult) {
-
-        try {
-
-          displayAnalysisResult(
-            JSON.parse(rawResult)
-          );
-
-        } catch (error) {
-
-          console.error(
-            "Invalid result data:",
-            error
-          );
-        }
-      }
-    }
-
-
-    /*
-       Copy draft button
-    */
-
-    const copyButton =
-      document.getElementById(
-        "copyDraftBtn"
-      );
-
-
-    if (copyButton) {
-
-      copyButton.addEventListener(
-        "click",
-        copyDraftReply
-      );
+      initResultPage();
     }
 
 
@@ -2351,8 +2242,20 @@ window.updateCharCount =
 window.handleComplaintSubmit =
   handleComplaintSubmit;
 
+window.initResultPage =
+  initResultPage;
+
+window.trackComplaintById =
+  trackComplaintById;
+
+window.copyReferenceId =
+  copyReferenceId;
+
+window.fetchCustomerComplaint =
+  fetchCustomerComplaint;
+
 window.copyDraftReply =
-  copyDraftReply;
+  copyReferenceId;
 
 window.renderHistoryTable =
   renderHistoryTable;

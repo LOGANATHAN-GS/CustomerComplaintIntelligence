@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/complaints", "/complaints"})
 public class ComplaintController {
 
     private final ComplaintService complaintService;
@@ -20,22 +19,35 @@ public class ComplaintController {
         this.complaintRepository = complaintRepository;
     }
 
-    @PostMapping({"/analyze", ""})
+    @PostMapping({"/api/complaints/analyze", "/complaints/analyze", "/api/complaints", "/complaints"})
     public Complaint analyzeComplaint(
             @RequestBody(required = false) Complaint complaint) {
 
         return complaintService.processComplaint(complaint);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping({"/api/complaints/{id}", "/complaints/{id}"})
     public ResponseEntity<Complaint> getComplaintById(@PathVariable("id") String id) {
         return complaintService.getComplaintById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
+    @GetMapping({"/api/complaints", "/complaints"})
     public List<Complaint> getAllComplaints() {
         return complaintRepository.findAll();
+    }
+
+    @GetMapping({"/api/customer/complaints/{id}", "/customer/complaints/{id}"})
+    public ResponseEntity<CustomerComplaintResponse> getCustomerComplaintById(@PathVariable("id") String id) {
+        return complaintService.getComplaintById(id)
+                .map(complaint -> ResponseEntity.ok(new CustomerComplaintResponse(
+                        complaint.getId(),
+                        complaint.getStatus(),
+                        complaint.getComplaintText(),
+                        "Your complaint has been received and is currently under review.",
+                        complaint.getCreatedAt()
+                )))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

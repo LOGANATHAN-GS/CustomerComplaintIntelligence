@@ -1,190 +1,468 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analysis Result - ComplaintAI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Complaint Confirmation & Status - ComplaintAI</title>
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              900: '#1e3a8a',
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
-  <link rel="stylesheet" href="style.css">
+    </script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
+
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-300">
 
-  <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-50 glass-card transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <!-- Brand Logo -->
-        <a href="index.html" class="flex items-center gap-3 cursor-pointer">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-            <i class="fa-solid fa-brain-circuit text-xl"></i>
-          </div>
-          <div>
-            <span class="font-extrabold text-xl tracking-tight gradient-text">ComplaintAI</span>
-            <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">Intelligence Platform</span>
-          </div>
-        </a>
 
-        <!-- Navigation Links -->
-        <nav class="hidden md:flex items-center space-x-1">
-          <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-house text-xs"></i> Home
-          </a>
-          <a href="complaint.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Analyze Complaint
-          </a>
-          <a href="history.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-clock-rotate-left text-xs"></i> History
-          </a>
-          <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-chart-pie text-xs"></i> Analytics
-          </a>
-        </nav>
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 glass-card transition-colors duration-300">
 
-        <!-- Header Actions -->
-        <div class="flex items-center gap-3">
-          <!-- Theme Toggle -->
-          <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
-            <i id="theme-icon" class="fa-solid fa-moon"></i>
-          </button>
-          <!-- Quick Status Indicator -->
-          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            AI Engine Ready
-          </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex items-center justify-between h-16">
+
+
+                <!-- Brand Logo -->
+                <a href="index.html"
+                   class="flex items-center gap-3 cursor-pointer">
+
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+
+                        <i class="fa-solid fa-brain-circuit text-xl"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="font-extrabold text-xl tracking-tight gradient-text">
+                            ComplaintAI
+                        </span>
+
+                        <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">
+                            Customer Portal
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1">
+
+
+                    <a href="index.html"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+
+                        <i class="fa-solid fa-house text-xs"></i>
+
+                        Home
+
+                    </a>
+
+
+                    <a href="complaint.html"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+
+                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+
+                        Submit Complaint
+
+                    </a>
+
+
+                    <!-- FIXED: Jump directly to tracking section -->
+                    <a href="result.html#tracking-section"
+                       class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md">
+
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+
+                        Track Status
+
+                    </a>
+
+                </nav>
+
+
+                <!-- Header Actions -->
+                <div class="flex items-center gap-3">
+
+
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()"
+                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+
+                        <i id="theme-icon"
+                           class="fa-solid fa-moon"></i>
+
+                    </button>
+
+
+                    <!-- Support Status Indicator -->
+                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+
+                        Support Active
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
+
+
+        <!-- Mobile Navigation Menu -->
+        <div class="md:hidden border-t border-slate-200 dark:border-slate-800 flex justify-around p-2 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
+
+
+            <a href="index.html"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium">
+
+                <i class="fa-solid fa-house"></i>
+
+                Home
+
+            </a>
+
+
+            <a href="complaint.html"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium">
+
+                <i class="fa-solid fa-pen-to-square"></i>
+
+                Submit
+
+            </a>
+
+
+            <!-- FIXED: Jump directly to tracking section -->
+            <a href="result.html#tracking-section"
+               class="p-2 text-xs flex flex-col items-center gap-1 font-medium text-blue-600">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Track
+
+            </a>
+
+
+        </div>
+
+    </header>
+
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+
+        <!-- CUSTOMER CONFIRMATION & STATUS -->
+        <section id="view-customer-result"
+                 class="space-y-8 max-w-3xl mx-auto">
+
+
+            <!-- Success Header Banner -->
+            <div class="text-center space-y-3">
+
+                <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-3xl mx-auto shadow-inner border border-emerald-500/20">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+
+                <h1 class="text-3xl font-extrabold tracking-tight">
+
+                    Complaint Submitted Successfully
+
+                </h1>
+
+
+                <p class="text-slate-500 dark:text-slate-400 text-sm max-w-lg mx-auto">
+
+                    Your feedback has been logged in our system.
+                    Please keep your Reference ID for future tracking.
+
+                </p>
+
+            </div>
+
+
+            <!-- Notice when no complaint ID is loaded -->
+            <div id="res-empty-notice"
+                 class="hidden glass-card p-6 rounded-2xl text-center space-y-3 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-sm">
+
+                <i class="fa-solid fa-circle-info text-xl"></i>
+
+                <p>
+                    No complaint selected. Enter your Reference ID below to check its status.
+                </p>
+
+            </div>
+
+
+            <!-- Main Confirmation Card -->
+            <div id="customer-result-card"
+                 class="glass-card p-6 sm:p-8 rounded-3xl shadow-xl space-y-6">
+
+
+                <!-- Reference ID & Status Highlight Box -->
+                <div class="p-6 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+
+                    <div class="space-y-1">
+
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Complaint Reference ID
+                        </span>
+
+
+                        <div class="flex items-center gap-3">
+
+                            <span id="res-ref-id"
+                                  class="font-mono text-2xl font-black text-blue-600 dark:text-blue-400 tracking-wider">
+                                -
+                            </span>
+
+
+                            <button onclick="copyReferenceId()"
+                                    title="Copy Reference ID"
+                                    class="px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold transition flex items-center gap-1">
+
+                                <i class="fa-regular fa-copy"></i>
+
+                                Copy
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="space-y-1 sm:text-right">
+
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+
+                            Current Status
+
+                        </span>
+
+
+                        <span id="res-status"
+                              class="inline-block px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+
+                            RECEIVED
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submitted Date & Time -->
+                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
+
+                    <span class="flex items-center gap-1.5">
+
+                        <i class="fa-regular fa-calendar"></i>
+
+                        Submitted Date:
+
+                    </span>
+
+
+                    <span id="res-created-at"
+                          class="font-semibold text-slate-700 dark:text-slate-300">
+
+                        -
+
+                    </span>
+
+                </div>
+
+
+                <hr class="border-slate-200 dark:border-slate-800">
+
+
+                <!-- Customer Safe Acknowledgement Message -->
+                <div class="space-y-2">
+
+                    <h3 class="text-sm font-bold flex items-center gap-2 text-slate-800 dark:text-slate-100">
+
+                        <i class="fa-solid fa-bell text-blue-500"></i>
+
+                        Status Acknowledgement
+
+                    </h3>
+
+
+                    <p id="res-message"
+                       class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed bg-blue-50/50 dark:bg-blue-950/20 p-4 rounded-xl border border-blue-500/10">
+
+                        Your complaint has been received and is currently under review.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Submitted Complaint Text -->
+                <div class="space-y-2">
+
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block">
+
+                        Submitted Complaint Details
+
+                    </span>
+
+
+                    <p id="res-complaint-text"
+                       class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed italic bg-slate-50 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 whitespace-pre-wrap">
+
+                    </p>
+
+                </div>
+
+
+                <!-- Primary Action -->
+                <div class="pt-2">
+
+                    <a href="complaint.html"
+                       class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white font-bold text-sm shadow-lg shadow-blue-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+
+                        <i class="fa-solid fa-pen-to-square"></i>
+
+                        Submit Another Complaint
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Track Another Complaint Option -->
+            <div id="tracking-section"
+                 class="glass-card p-6 rounded-3xl space-y-4">
+
+
+                <div class="space-y-1">
+
+                    <h3 class="text-base font-bold flex items-center gap-2">
+
+                        <i class="fa-solid fa-magnifying-glass text-blue-500"></i>
+
+                        Track An Existing Complaint
+
+                    </h3>
+
+
+                    <p class="text-xs text-slate-400">
+
+                        Have a Reference ID?
+                        Enter it below to check its current status.
+
+                    </p>
+
+                </div>
+
+
+                <div class="flex gap-2">
+
+                    <input type="text"
+                           id="trackInput"
+                           placeholder="Enter Reference ID (e.g. CDF60889F)"
+                           class="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-mono focus:ring-2 focus:ring-blue-500 outline-none uppercase">
+
+
+                    <button onclick="trackComplaintById()"
+                            class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white text-xs font-bold transition flex items-center gap-1.5">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Track Status
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- Notification Toast Container -->
+    <div id="toast"
+         class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+
+        <div class="px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-800">
+
+            <i id="toast-icon"
+               class="fa-solid fa-circle-check text-emerald-400"></i>
+
+
+            <span id="toast-msg">
+
+                Action completed successfully!
+
+            </span>
+
+        </div>
+
     </div>
 
-    <!-- Mobile Navigation Menu -->
-    <div class="md:hidden border-t border-slate-200 dark:border-slate-800 flex justify-around p-2 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
-      <a href="index.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="complaint.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze</a>
-      <a href="history.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-      <a href="dashboard.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-chart-pie"></i> Metrics</a>
-    </div>
-  </header>
 
-  <!-- Main Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Existing Project JavaScript -->
+    <script src="script.js"></script>
 
-    <!-- RESULT DISPLAY -->
-    <section id="view-result" class="space-y-8 max-w-4xl mx-auto">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <span class="text-xs font-extrabold uppercase tracking-widest text-blue-600 dark:text-blue-400">Analysis Complete</span>
-          <h2 class="text-3xl font-extrabold tracking-tight">Intelligence Breakdown</h2>
-        </div>
-        <div class="flex items-center gap-2">
-          <a href="complaint.html" class="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-xs font-semibold hover:bg-slate-300 dark:hover:bg-slate-700 transition">
-            <i class="fa-solid fa-plus"></i> Analyze Another
-          </a>
-          <a href="history.html" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-500 transition">
-            <i class="fa-solid fa-table-list"></i> View All in History
-          </a>
-        </div>
-      </div>
 
-      <!-- Original Complaint Box -->
-      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-blue-500">
-        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Original Complaint Text</span>
-        <p id="res-original-text" class="text-sm italic text-slate-700 dark:text-slate-300 leading-relaxed"></p>
-      </div>
-
-      <!-- KPI Classification Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <!-- Category Card -->
-        <div class="glass-card p-6 rounded-2xl text-center space-y-2 border-t-4 border-t-blue-500">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Detected Category</span>
-          <div id="res-category" class="text-xl font-extrabold text-slate-800 dark:text-slate-100">-</div>
-          <span id="res-confidence" class="inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">Conf: 95%</span>
-        </div>
-
-        <!-- Sentiment Card -->
-        <div class="glass-card p-6 rounded-2xl text-center space-y-2 border-t-4 border-t-amber-500">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sentiment Score</span>
-          <div id="res-sentiment" class="text-xl font-extrabold text-amber-500">-</div>
-          <span id="res-sentiment-badge" class="inline-block text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600">Frustrated</span>
-        </div>
-
-        <!-- Priority Card -->
-        <div class="glass-card p-6 rounded-2xl text-center space-y-2 border-t-4 border-t-rose-500">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Urgency Priority</span>
-          <div id="res-priority-container" class="mt-1">
-            <span id="res-priority" class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wide bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">HIGH</span>
-          </div>
-          <span id="res-urgency-score" class="block text-[11px] text-slate-400 mt-1">Urgency Score: 88/100</span>
-        </div>
-      </div>
-
-      <!-- Actionable Insights & Draft Reply -->
-      <div class="glass-card p-6 sm:p-8 rounded-3xl space-y-6">
-        <div>
-          <h3 class="font-bold text-base flex items-center gap-2">
-            <i class="fa-solid fa-lightbulb text-amber-500"></i> Recommended Escalation Action
-          </h3>
-          <p id="res-action" class="text-sm text-slate-600 dark:text-slate-300 mt-1 leading-relaxed"></p>
-        </div>
-
-        <hr class="border-slate-200 dark:border-slate-800">
-
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-bold text-base flex items-center gap-2">
-              <i class="fa-solid fa-robot text-blue-500"></i> AI Generated Draft Customer Reply
-            </h3>
-            <button onclick="copyDraftReply()" class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold transition flex items-center gap-1">
-              <i class="fa-regular fa-copy"></i> Copy Draft
-            </button>
-          </div>
-          <div id="res-draft-reply" class="p-4 rounded-xl bg-slate-900 text-slate-200 font-mono text-xs leading-relaxed overflow-x-auto whitespace-pre-wrap border border-slate-800"></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Notification Toast Container -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
-    <div class="px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-800">
-      <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-      <span id="toast-msg">Action completed successfully!</span>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
-</html>
 
+</html>

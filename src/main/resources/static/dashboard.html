@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8">
@@ -47,29 +47,26 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Brand Logo -->
-        <a href="index.html" class="flex items-center gap-3 cursor-pointer">
+        <a href="company.html" class="flex items-center gap-3 cursor-pointer">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
             <i class="fa-solid fa-brain-circuit text-xl"></i>
           </div>
           <div>
             <span class="font-extrabold text-xl tracking-tight gradient-text">ComplaintAI</span>
-            <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">Intelligence Platform</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider block text-slate-500 dark:text-slate-400 -mt-1">Company Operations Portal</span>
           </div>
         </a>
 
         <!-- Navigation Links -->
         <nav class="hidden md:flex items-center space-x-1">
-          <a href="index.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-house text-xs"></i> Home
-          </a>
-          <a href="complaint.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i> Analyze Complaint
+          <a href="company.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
+            <i class="fa-solid fa-shield-halved text-xs"></i> Company Portal
           </a>
           <a href="history.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600">
-            <i class="fa-solid fa-clock-rotate-left text-xs"></i> History
+            <i class="fa-solid fa-clock-rotate-left text-xs"></i> Complaint History
           </a>
           <a href="dashboard.html" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md">
-            <i class="fa-solid fa-chart-pie text-xs"></i> Analytics
+            <i class="fa-solid fa-chart-pie text-xs"></i> Analytics Dashboard
           </a>
         </nav>
 
@@ -79,10 +76,10 @@
           <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
             <i id="theme-icon" class="fa-solid fa-moon"></i>
           </button>
-          <!-- Quick Status Indicator -->
-          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            AI Engine Ready
+          <!-- Operations Status Indicator -->
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+            Internal Console
           </div>
         </div>
       </div>
@@ -90,8 +87,7 @@
 
     <!-- Mobile Navigation Menu -->
     <div class="md:hidden border-t border-slate-200 dark:border-slate-800 flex justify-around p-2 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
-      <a href="index.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="complaint.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze</a>
+      <a href="company.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-shield-halved"></i> Portal</a>
       <a href="history.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
       <a href="dashboard.html" class="p-2 text-xs flex flex-col items-center gap-1 font-medium text-blue-600"><i class="fa-solid fa-chart-pie"></i> Metrics</a>
     </div>
