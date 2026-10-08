@@ -16,6 +16,13 @@ public class SentimentAnalyzer {
             "issue",
             "late",
             "not working",
+            "charged twice",
+            "double charged",
+            "duplicate charge",
+            "hasnt arrived",
+            "not received",
+            "never arrived",
+            "missing package",
             "poor"
         };
 

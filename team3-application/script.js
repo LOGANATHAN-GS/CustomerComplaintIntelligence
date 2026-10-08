@@ -187,7 +187,6 @@ async function callGeminiAnalysis(text) {
 async function handleComplaintSubmit(e) {
   e.preventDefault();
   const text = document.getElementById('complaintInput').value.trim();
-  const engineType = document.getElementById('engineType').value;
   const submitBtn = document.getElementById('submitBtn');
 
   if (!text) return;
@@ -196,22 +195,37 @@ async function handleComplaintSubmit(e) {
   submitBtn.disabled = true;
   submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> AI Engine Analyzing...`;
 
-  let result;
-  if (engineType === 'gemini') {
-    result = await callGeminiAnalysis(text);
-  } else {
-    await new Promise(r => setTimeout(r, 600)); // smooth delay simulation
-    result = runLocalRuleAnalysis(text);
+  try {
+    const response = await fetch('/api/complaints/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ complaintText: text })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.detail || payload.message || `Backend returned ${response.status}`);
+
+    const result = {
+      id: payload.id,
+      text: payload.complaintText,
+      category: payload.category,
+      sentiment: payload.sentiment,
+      priority: payload.priority,
+      confidence: Math.round((payload.confidenceScore || 0) * 100),
+      action: payload.actionRecommended,
+      draftReply: payload.draftReply
+    };
+    const all = getStoredComplaints();
+    all.unshift(result);
+    saveStoredComplaints(all);
+    localStorage.setItem("latest_result", JSON.stringify(result));
+    window.location.href = "result.html";
+  } catch (err) {
+    console.error('Complaint analysis failed:', err);
+    showToast(err.message || 'Unable to analyze complaint. Please try again.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Analyze Complaint';
   }
-
-  // Save result to LocalStorage
-  const all = getStoredComplaints();
-  all.unshift(result);
-  saveStoredComplaints(all);
-  localStorage.setItem("latest_result", JSON.stringify(result));
-
-  // Redirect to result page
-  window.location.href = "result.html";
 }
 
 function displayAnalysisResult(res) {
